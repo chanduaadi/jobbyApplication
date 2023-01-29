@@ -17,7 +17,11 @@ const SimilarProducts = props => {
   return (
     <li className="similar-product-item-container">
       <div className="img-contaienr">
-        <img className="similar-img" src={companyLogoUrl} alt="facebook" />
+        <img
+          className="similar-img"
+          src={companyLogoUrl}
+          alt="similar job company logo"
+        />
         <div className="job-name-containar">
           <p className="job-role-text">{title}</p>
           <div className="job-role-star-container">

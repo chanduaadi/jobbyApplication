@@ -22,7 +22,11 @@ const JobCard = props => {
     <Link className="job-card-link" to={`/jobs/${id}`}>
       <li className="job-card-item-container">
         <div className="logo-details-container">
-          <img className="company-logo" src={companyLogoUrl} alt="facebook" />
+          <img
+            className="company-logo"
+            src={companyLogoUrl}
+            alt="company logo"
+          />
           <div className="job-role-container">
             <p className="job-role-text">{title}</p>
             <div className="job-role-star-container">

@@ -16,10 +16,51 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
+const employmentTypesList = [
+  {
+    label: 'Full Time',
+    employmentTypeId: 'FULLTIME',
+  },
+  {
+    label: 'Part Time',
+    employmentTypeId: 'PARTTIME',
+  },
+  {
+    label: 'Freelance',
+    employmentTypeId: 'FREELANCE',
+  },
+  {
+    label: 'Internship',
+    employmentTypeId: 'INTERNSHIP',
+  },
+]
+
+const salaryRangesList = [
+  {
+    salaryRangeId: '1000000',
+    label: '10 LPA and above',
+  },
+  {
+    salaryRangeId: '2000000',
+    label: '20 LPA and above',
+  },
+  {
+    salaryRangeId: '3000000',
+    label: '30 LPA and above',
+  },
+  {
+    salaryRangeId: '4000000',
+    label: '40 LPA and above',
+  },
+]
+
 class Jobs extends Component {
   state = {
     jobCardList: [],
     apiStatus: apiStatusConstants.initial,
+    checkBoxValues: [],
+    radioValue: '',
+    searchInput: '',
   }
 
   componentDidMount() {
@@ -27,9 +68,12 @@ class Jobs extends Component {
   }
 
   getCardList = async () => {
+    const {checkBoxValues, radioValue, searchInput} = this.state
+    const checkValues = checkBoxValues.join()
+
     this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/jobs'
+    const url = `https://apis.ccbp.in/jobs?employment_type=${checkValues}&minimum_package=${radioValue}&search=${searchInput}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -59,14 +103,54 @@ class Jobs extends Component {
     }
   }
 
+  onChangeCheck = event => {
+    const {checkBoxValues} = this.state
+    if (checkBoxValues.includes(event.target.value)) {
+      const arr = checkBoxValues.filter(v => v !== event.target.value)
+      this.setState({checkBoxValues: arr}, this.getCardList)
+    } else {
+      const arr = [...checkBoxValues, event.target.value]
+      this.setState({checkBoxValues: arr}, this.getCardList)
+    }
+  }
+
+  onChangeRadio = event => {
+    this.setState({radioValue: event.target.value}, this.getCardList)
+  }
+
+  onSearch = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  onclickSearch = () => {
+    this.getCardList()
+  }
+
   renderPendingView = () => (
-    <div className="jobs-failure-view-container">
+    <div className="jobs-failure-view-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  noProductFound = () => (
+    <div className="jobs-cards-container">
+      <img
+        className="no-jobs-found"
+        src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+        alt="no jobs"
+      />
+      <h1 className="failure-heading">No Jobs Found</h1>
+      <p className="failure-discription">
+        We could not find any jobs. Try other filters
+      </p>
     </div>
   )
 
   renderJobCardList = () => {
     const {jobCardList} = this.state
+    if (jobCardList.length < 1) {
+      return this.noProductFound()
+    }
     return (
       <div className="jobs-cards-container">
         <AllJobs jobCardList={jobCardList} />
@@ -106,17 +190,69 @@ class Jobs extends Component {
   }
 
   render() {
+    const {searchInput, radioValue} = this.state
     return (
       <div className="jobs-page-container">
         <Header />
         <div className="jobs-btm-container">
           <div className="job-profile-and-filter-container">
             <Profile />
+            <hr className="profile-hr-line" />
+            <h1 className="heading">Type Of Employement</h1>
+            <ul className="check-box-contaienr">
+              {employmentTypesList.map(eachItem => (
+                <li className="check-box-list" key={eachItem.employmentTypeId}>
+                  <input
+                    value={eachItem.employmentTypeId}
+                    type="checkBox"
+                    id={eachItem.employmentTypeId}
+                    onChange={this.onChangeCheck}
+                  />
+                  <label
+                    htmlFor={eachItem.employmentTypeId}
+                    className="lable-text"
+                  >
+                    {eachItem.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <hr className="profile-hr-line" />
+            <h1 className="heading">Salary Range</h1>
+            <ul className="check-box-contaienr">
+              {salaryRangesList.map(eachItem => (
+                <li className="check-box-list" key={eachItem.salaryRangeId}>
+                  <input
+                    value={eachItem.salaryRangeId}
+                    type="radio"
+                    id={eachItem.salaryRangeId}
+                    checked={radioValue === eachItem.salaryRangeId}
+                    onChange={this.onChangeRadio}
+                  />
+                  <label
+                    htmlFor={eachItem.salaryRangeId}
+                    className="lable-text"
+                  >
+                    {eachItem.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="job-search-and-cards-container">
             <div className="search-input-container">
-              <input className="search-input" type="search" />
-              <button className="search-button" type="button">
+              <input
+                className="search-input"
+                value={searchInput}
+                type="search"
+                onChange={this.onSearch}
+              />
+              <button
+                className="search-button"
+                type="button"
+                data-testid="searchButton"
+                onClick={this.onclickSearch}
+              >
                 <BsSearch className="search-icon" />
               </button>
             </div>

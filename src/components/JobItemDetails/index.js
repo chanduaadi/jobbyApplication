@@ -88,7 +88,11 @@ class JobItemDetails extends Component {
         <Header />
         <div className="jobdetail-card-container">
           <div className="logo-details-container">
-            <img className="company-logo" src={companyLogoUrl} alt="facebook" />
+            <img
+              className="company-logo"
+              src={companyLogoUrl}
+              alt="job details company logo"
+            />
             <div className="job-role-container">
               <p className="job-role-text">{title}</p>
               <div className="job-role-star-container">
@@ -122,7 +126,7 @@ class JobItemDetails extends Component {
           <h1 className="discription-text">Skills</h1>
           <ul className="skills-list-container">
             {skills.map(eachSkill => (
-              <li className="skill-list-item">
+              <li className="skill-list-item" key={eachSkill.name}>
                 <img
                   className="skill-img"
                   src={eachSkill.imageUrl}
@@ -142,7 +146,7 @@ class JobItemDetails extends Component {
             <img
               className="compony-image"
               src={lifeAtCompany.image_url}
-              alt="naefix"
+              alt="life at company"
             />
           </div>
         </div>

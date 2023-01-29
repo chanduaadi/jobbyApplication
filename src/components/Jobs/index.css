@@ -27,6 +27,8 @@
 
 .heading {
   color: #ffffff;
+  font-size: 24px;
+  font-family: 'Roboto';
 }
 
 .search-input-container {
@@ -95,10 +97,39 @@
   font-size: 35px;
   font-weight: 700;
   font-family: 'Roboto';
+  text-align: center;
 }
 .failure-discription {
   color: #ffffff;
   font-size: 20px;
   font-weight: 500;
   font-family: 'Roboto';
+  text-align: center;
+}
+.profile-hr-line {
+  width: 100%;
+  color: #cbd5e1;
+}
+.check-box-contaienr {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.check-box-list {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.lable-text {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Roboto';
+  margin-left: 10px;
+}
+.no-jobs-found {
+  height: 500px;
+  width: 600px;
 }

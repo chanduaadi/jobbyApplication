@@ -65,7 +65,7 @@ class Profile extends Component {
     const {name, profileImageUrl, shortBio} = profileData
     return (
       <div className="profile-container">
-        <img className="profile-img" src={profileImageUrl} alt="" />
+        <img className="profile-img" src={profileImageUrl} alt="profile" />
         <h1 className="profile-name">{name}</h1>
         <p className="profile-discription">{shortBio}</p>
       </div>
@@ -73,7 +73,7 @@ class Profile extends Component {
   }
 
   renderPendingView = () => (
-    <div className="failure-view-container">
+    <div className="failure-view-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
