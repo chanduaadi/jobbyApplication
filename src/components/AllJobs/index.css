@@ -1,0 +1,8 @@
+.heading {
+  color: #ffffff;
+}
+.jobs-cards-list-item-container {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+}
