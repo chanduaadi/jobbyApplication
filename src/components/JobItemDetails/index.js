@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import {AiFillStar} from 'react-icons/ai'
 import {MdLocationOn} from 'react-icons/md'
 import {CgToolbox} from 'react-icons/cg'
@@ -10,10 +11,18 @@ import SimilarProducts from '../SimilarProducts'
 
 import './index.css'
 
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inProgress: 'IN_PROGRESS',
+}
+
 class JobItemDetails extends Component {
   state = {
     jobDetailedList: {},
     similarList: [],
+    apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
@@ -21,6 +30,7 @@ class JobItemDetails extends Component {
   }
 
   jobDetailsApi = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const {match} = this.props
     const {params} = match
     const {id} = params
@@ -63,11 +73,21 @@ class JobItemDetails extends Component {
         rating: eachItem.rating,
         title: eachItem.title,
       }))
-      this.setState({jobDetailedList: jobDetails, similarList: similarJobsList})
+      this.setState({
+        jobDetailedList: jobDetails,
+        similarList: similarJobsList,
+        apiStatus: apiStatusConstants.success,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
-  render() {
+  retryJobDetails = () => {
+    this.jobDetailsApi()
+  }
+
+  renderJobsDetails = () => {
     const {jobDetailedList, similarList} = this.state
 
     const {
@@ -82,10 +102,8 @@ class JobItemDetails extends Component {
       skills,
       title,
     } = jobDetailedList
-
     return (
-      <div className="jobdetails-container">
-        <Header />
+      <>
         <div className="jobdetail-card-container">
           <div className="logo-details-container">
             <img
@@ -116,9 +134,9 @@ class JobItemDetails extends Component {
           </div>
           <hr className="line-hr" />
           <div className="jobs-location-and-pakege-container">
-            <p className="discription-text">Description</p>
+            <h1 className="discription-text">Description</h1>
             <a href={companyWebsiteUrl} className="navigate-link">
-              Vist <HiExternalLink />
+              Visit <HiExternalLink />
             </a>
           </div>
 
@@ -140,7 +158,7 @@ class JobItemDetails extends Component {
           <div className="company-discription-container">
             <div className="discription-contaoner">
               <p className="company-discription-text">
-                {lifeAtCompany.discription}
+                {lifeAtCompany.description}
               </p>
             </div>
             <img
@@ -158,6 +176,56 @@ class JobItemDetails extends Component {
             <SimilarProducts key={eachItem.id} eachItem={eachItem} />
           ))}
         </ul>
+      </>
+    )
+  }
+
+  renderJobsFailureView = () => (
+    <div className="jobs-failure-view-container">
+      <img
+        className="failure-img"
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+      />
+      <h1 className="failure-heading">Oops! Something Went Wrong</h1>
+      <p className="failure-discription">
+        We cannot seem to find the page you are looking for
+      </p>
+      <button
+        className="jobs-retry-button"
+        type="button"
+        onClick={this.retryJobDetails}
+      >
+        Retry
+      </button>
+    </div>
+  )
+
+  renderPendingView = () => (
+    <div className="jobs-failure-view-container" data-testid="loader">
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  renderSwitch = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderJobsDetails()
+      case apiStatusConstants.failure:
+        return this.renderJobsFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderPendingView()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return (
+      <div className="jobdetails-container">
+        <Header />
+        {this.renderSwitch()}
       </div>
     )
   }

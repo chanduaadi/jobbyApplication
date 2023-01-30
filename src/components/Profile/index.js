@@ -22,10 +22,6 @@ class Profile extends Component {
     this.profileApiCall()
   }
 
-  onRetry = () => {
-    this.profileApiCall()
-  }
-
   profileApiCall = async () => {
     this.setState({apiStatus: apiStatusConstants.inProgress})
     console.log('Inprogress')
@@ -51,13 +47,16 @@ class Profile extends Component {
         profileData: filteredProfileData,
         apiStatus: apiStatusConstants.success,
       })
-      console.log(filteredProfileData)
     }
     if (response.status === 401) {
       this.setState({
         apiStatus: apiStatusConstants.failure,
       })
     }
+  }
+
+  onRetryProfile = () => {
+    this.profileApiCall()
   }
 
   renderProfileContainer = () => {
@@ -80,7 +79,11 @@ class Profile extends Component {
 
   renderFailurView = () => (
     <div className="failure-view-container">
-      <button className="retry-button" type="button" onClick={this.onRetry}>
+      <button
+        className="retry-button"
+        type="button"
+        onClick={this.onRetryProfile}
+      >
         Retry
       </button>
     </div>

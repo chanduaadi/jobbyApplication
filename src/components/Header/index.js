@@ -26,6 +26,7 @@ const Header = props => {
         <Link className="nav-link" to="/jobs">
           <li className="header-list-items">Jobs</li>
         </Link>
+        <li className="test-case">home</li>
       </ul>
       <button className="logout-button" type="button" onClick={onClickLogout}>
         Logout

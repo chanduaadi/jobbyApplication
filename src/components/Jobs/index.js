@@ -103,6 +103,10 @@ class Jobs extends Component {
     }
   }
 
+  retryJobs = () => {
+    this.getCardList()
+  }
+
   onChangeCheck = event => {
     const {checkBoxValues} = this.state
     if (checkBoxValues.includes(event.target.value)) {
@@ -167,9 +171,13 @@ class Jobs extends Component {
       />
       <h1 className="failure-heading">Oops! Something Went Wrong</h1>
       <p className="failure-discription">
-        We cannot seem to find the page your looking for
+        We cannot seem to find the page you are looking for
       </p>
-      <button className="jobs-retry-button" type="button">
+      <button
+        className="jobs-retry-button"
+        type="button"
+        onClick={this.retryJobs}
+      >
         Retry
       </button>
     </div>
@@ -198,7 +206,7 @@ class Jobs extends Component {
           <div className="job-profile-and-filter-container">
             <Profile />
             <hr className="profile-hr-line" />
-            <h1 className="heading">Type Of Employement</h1>
+            <h1 className="heading">Type of Employment</h1>
             <ul className="check-box-contaienr">
               {employmentTypesList.map(eachItem => (
                 <li className="check-box-list" key={eachItem.employmentTypeId}>

@@ -8,11 +8,15 @@
 .header-logo {
   width: 100px;
 }
+.test-case {
+  display: none;
+}
 .header-links-container {
   display: flex;
   align-items: center;
   list-style-type: none;
 }
+
 .header-list-items {
   color: #ffffff;
   font-size: 18px;

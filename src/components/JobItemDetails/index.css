@@ -153,3 +153,40 @@
   flex-wrap: wrap;
   align-items: center;
 }
+.jobs-failure-view-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.failure-img {
+  width: 400px;
+}
+.jobs-retry-button {
+  border-width: 0px;
+  background-color: #4f46e5;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Roboto';
+  outline: none;
+  cursor: pointer;
+  width: 100px;
+}
+
+.failure-heading {
+  color: #ffffff;
+  font-size: 35px;
+  font-weight: 700;
+  font-family: 'Roboto';
+  text-align: center;
+}
+.failure-discription {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  text-align: center;
+}

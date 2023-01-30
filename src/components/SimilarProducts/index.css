@@ -6,6 +6,7 @@
   flex-direction: column;
   margin-right: 20px;
   width: 400px;
+  margin-bottom: 30px;
 }
 .img-contaienr {
   display: flex;

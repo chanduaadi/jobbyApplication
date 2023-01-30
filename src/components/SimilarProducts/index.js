@@ -23,14 +23,14 @@ const SimilarProducts = props => {
           alt="similar job company logo"
         />
         <div className="job-name-containar">
-          <p className="job-role-text">{title}</p>
+          <h1 className="job-role-text">{title}</h1>
           <div className="job-role-star-container">
             <AiFillStar className="star-icon" />
             <p className="job-role-rating">{rating}</p>
           </div>
         </div>
       </div>
-      <p className="similar-discription">Discription</p>
+      <h1 className="similar-discription">Discription</h1>
       <p className="job-role-discrption">{jobDescription}</p>
       <div className="job-location-job-type-contianer">
         <div className="job-location-contianer">
